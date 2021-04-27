@@ -6,9 +6,9 @@ let teamsArray = [];
 
 
 
-function Team(teamNumber, teamName, color, logo){
+function Team(teamNumber, name, color, logo){
     this.teamNumber = teamNumber;
-    this.teamName = teamName;
+    this.name = name;
     this.color = color;
     this.logo = logo;
 
@@ -30,6 +30,7 @@ testBtn.addEventListener("click", () => {
     const team = new Team(teamCounter, teamName, teamColor, teamLogo);
     
     saveTeam(team);
+    teamImage(team);
 });
 
 const saveTeam = (team) => {
@@ -73,10 +74,10 @@ const saveTeam = (team) => {
 
 };
 
-const displayTeams = (array) => {
-    array.forEach(element => {
-        Object.keys(element).forEach(key => {
-            console.log(key, element[key]);
+const displayTeams = (teamArray) => {
+    teamArray.forEach(team => {
+        Object.keys(team).forEach(key => {
+            console.log(key, team[key]);
         });
     });
 }
@@ -84,3 +85,42 @@ const displayTeams = (array) => {
 displayTeamsBtn.addEventListener("click", () => {
     displayTeams(teamsArray);
 });
+
+const teamImage = (teamObject) => {
+    const testContainer = document.createElement("div");
+    testContainer.classList.add("testContainer");
+
+    const logoChoice = teamObject.logo;
+    const logo = document.getElementById(logoChoice);
+    clonePath(logo);
+    const newLogo = document.getElementById(logoChoice + cloneCount);
+    newLogo.classList.add("logoChoice");
+
+    const logoBack = document.createElement("div");
+    logoBack.classList.add("logoBack");
+
+    const testDiv = document.getElementById("test");
+
+    testDiv.appendChild(testContainer);
+
+    testContainer.appendChild(newLogo);
+    testContainer.appendChild(logoBack);
+
+    const teamName =  document.createElement("p");
+    teamName.classList.add("teamName");
+    teamName.textContent += teamObject.name;
+
+    testContainer.appendChild(teamName);
+
+    const teamColor = teamObject.color;
+    testContainer.classList.add(teamColor);
+};
+
+let cloneCount = 0;
+const clonePath = (nodeObject) => {
+    const clonedPath = nodeObject.cloneNode(true);
+    cloneCount++;
+    clonedPath.id = clonedPath.id + cloneCount;
+    const parent = nodeObject.parentElement;
+    parent.appendChild(clonedPath);
+};
